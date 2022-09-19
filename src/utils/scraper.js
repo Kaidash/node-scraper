@@ -13,7 +13,7 @@ import Spreadsheets from "../services/spreadsheets.js";
 const cities = ["cze/brno", "cze/prague", "cze/pilsen"];
 const woltUrl = "https://wolt.com";
 // number of parallel open restaurant details tabs in the browser
-const PARALLEL_TAB_VALUE = 2;
+const PARALLEL_TAB_VALUE = 4;
 
 // Auto scroll function for uploading lazy loading items
 async function autoScroll(page) {
@@ -207,9 +207,9 @@ export default async () => {
     });
     // Drop collections and clear spreadsheet before new parsing
     await Promise.all([
-      Restaurants.clearRestaurants(),
-      MenuItems.clearMenuItems(),
-      Spreadsheets.clearSheet(),
+      await Restaurants.clearRestaurants(),
+      await MenuItems.clearMenuItems(),
+      await Spreadsheets.clearSheet(),
     ]);
 
     // run restaurants queue
