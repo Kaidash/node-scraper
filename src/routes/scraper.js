@@ -6,7 +6,7 @@ const router = express.Router();
 router.get("/", (req, res) => {
   scrape();
   res.json({
-    message: "Scraper launched!",
+    message: "Scraper was launched!",
   });
 });
 

@@ -13,15 +13,17 @@ Running dev
 
 ``` yarn install ```
 
-### 3. Run local mongo using docker
+### 3. Change DB_HOST in .env to localhost
+
+### 4. Run local mongo using docker
 
 ``` docker-compoese up mongodb ```
 
-### 4. Start node with nodemon
+### 5. Start node with nodemon
 
 ``` yarn run dev ```
 
-### 5. Run scraper
+### 6. Run scraper
 
 ```Open http://localhost:8080/api/v1/scraper```
 

@@ -10,10 +10,10 @@ services:
     restart: always
     env_file: .env
     ports:
-      - "8080:${PORT}"
-  mongodb:
+      - "${PORT}:${PORT}"
+  mongo:
     image: mongo:latest
-    container_name: mongodb
+    container_name: mongo
     restart: always
     env_file: .env
     ports:

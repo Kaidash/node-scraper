@@ -15,26 +15,24 @@ const woltUrl = "https://wolt.com";
 // number of parallel open restaurant details tabs in the browser
 const PARALLEL_TAB_VALUE = 2;
 
+// Auto scroll function for uploading lazy loading items
 async function autoScroll(page) {
   await page.evaluate(async () => {
     await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, 5000);
-      // let totalHeight = 0;
-      // const distance = 100;
-      // const timer = setInterval(() => {
-      //   // eslint-disable-next-line no-undef
-      //   const { scrollHeight } = document.body;
-      //   // eslint-disable-next-line no-undef
-      //   window.scrollBy(0, distance);
-      //   totalHeight += distance;
-      //   // eslint-disable-next-line no-undef
-      //   if (totalHeight >= scrollHeight - window.innerHeight) {
-      //     clearInterval(timer);
-      //     resolve();
-      //   }
-      // }, 100);
+      let totalHeight = 0;
+      const distance = 100;
+      const timer = setInterval(() => {
+        // eslint-disable-next-line no-undef
+        const { scrollHeight } = document.body;
+        // eslint-disable-next-line no-undef
+        window.scrollBy(0, distance);
+        totalHeight += distance;
+        // eslint-disable-next-line no-undef
+        if (totalHeight >= scrollHeight - window.innerHeight) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, 100);
     });
   });
 }
@@ -116,6 +114,7 @@ const putParsedDataToDb = async (restaurantData, menuItems) => {
 
 const openRestaurantDetails = async (browser, url) => {
   try {
+    console.log(`Running ${url} details page!`);
     const { content, page } = await initPage(browser, url, true);
     try {
       const { restaurantData, menuItems } = getDataFromDetailsPage(content);
@@ -152,8 +151,11 @@ const openRestaurantDetails = async (browser, url) => {
 };
 const parseDataForOneRestaurant = async (browser, url) => {
   try {
+    console.log(`Running ${url} page!`);
     const { content, page } = await initPage(browser, url, true);
     try {
+      console.log(`Opened ${url} page!`);
+
       const detailsRequests = [];
 
       await content("[class*='DiscoveryVenueListItem']")
@@ -196,7 +198,6 @@ const parseDataForOneRestaurant = async (browser, url) => {
 export default async () => {
   try {
     const browser = await startBrowser();
-
     // create restaurants tabs queue
     const requests = cities.map((url) => async () => {
       await parseDataForOneRestaurant(
@@ -204,7 +205,6 @@ export default async () => {
         `${woltUrl}/en/${url}/restaurants`
       );
     });
-
     // Drop collections and clear spreadsheet before new parsing
     await Promise.all([
       Restaurants.clearRestaurants(),
@@ -217,7 +217,7 @@ export default async () => {
       (promise, currPromise) => promise.then((val) => currPromise(val)),
       Promise.resolve()
     );
-
+    console.log('Parsing was finished!!!!!')
     await browser.close();
   } catch (error) {
     console.error(error);

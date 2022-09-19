@@ -44,6 +44,7 @@ export default {
   async clearMenuItems() {
     try {
       await database.clearCollection("menuItems");
+      console.log('Clear menu items from menuItems db');
     } catch (e) {
       console.error(e);
       throw e;

@@ -12,8 +12,8 @@ import routes from "./routes/index.js";
 const app = express();
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 1,
+  windowMs: 2 * 60 * 1000, // 2 minutes
+  max: 2,
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });

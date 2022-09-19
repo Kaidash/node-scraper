@@ -34,15 +34,11 @@ export default {
       await doc.loadInfo();
       const restaurantTable = doc.sheetsByIndex[0];
       const menuItemsTable = doc.sheetsByIndex[1];
-
-      const clearRestaurantTable = async () => {
-        await restaurantTable.clear();
-      };
-      const clearMenuItemsTable = async () => {
-        await menuItemsTable.clear();
-      };
-
-      await Promise.all(clearRestaurantTable(), clearMenuItemsTable());
+      await Promise.all([
+          await restaurantTable.clear(),
+          await menuItemsTable.clear()
+      ])
+      console.log('Clear spreadsheets!')
       return true;
     } catch (e) {
       console.log(e);

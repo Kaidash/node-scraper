@@ -12,6 +12,7 @@ export default {
   async clearRestaurants() {
     try {
       await database.clearCollection("restaurants");
+      console.log('Clear menu items from restaurants db');
     } catch (e) {
       console.error(e);
       throw e;
