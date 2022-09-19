@@ -1,0 +1,22 @@
+version: '4'
+
+services:
+  node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: node
+    container_name: node
+    restart: always
+    env_file: .env
+    ports:
+      - "8080:${PORT}"
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
+    env_file: .env
+    ports:
+      - "27017:${MONGO_PORT}"
+    volumes:
+      - ./db:/data/db
